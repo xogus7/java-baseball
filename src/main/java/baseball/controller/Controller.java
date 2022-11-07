@@ -14,7 +14,6 @@ import baseball.model.Player;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 
-
 public class Controller {
     private static final int MIN_NUMBER = 1;
     private static final int MAX_NUMBER = 9;
@@ -29,34 +28,33 @@ public class Controller {
     private boolean done;
     private String input;
 
-    public void initGame() {
-        this.computer = new Computer(drawRandomNumber(MIN_NUMBER, MAX_NUMBER, INPUT_LENGTH));
+    private void initGame() {
+        computer = new Computer(drawRandomNumbers(MIN_NUMBER, MAX_NUMBER, INPUT_LENGTH));
     }
 
-    public List<Integer> drawRandomNumber(int start, int end, int numLength) {
+    private List<Integer> drawRandomNumbers(int start, int end, int numLength) {
         Set<Integer> tempRandomNum = new HashSet<>();
         while (tempRandomNum.size() < numLength) {
             tempRandomNum.add(Randoms.pickNumberInRange(start, end));
         }
-        List<Integer> temp = new ArrayList<>(tempRandomNum);
-        return temp;
+        return new ArrayList<>(tempRandomNum);
     }
 
-    public void inputPlayer() {
-        this.player = new Player(new ArrayList<>());
+    private void inputPlayer() {
+        player = new Player(new ArrayList<>());
         input = Console.readLine();
         InputException.inputArgumentCheck(input, INPUT_LENGTH);
         for (int i = 0; i < input.length(); i++) {
             int number = input.charAt(i) - ZERO_CHARACTER;
-            this.player.getNumbers().add(number);
+            this.player.add(number);
         }
     }
 
-    public void computeScore() {
+    private void computeScore() {
         computer.initCount();
         for (int playerIndex = 0; playerIndex < INPUT_LENGTH; playerIndex++) {
-            int playerNumber = this.player.getNumbers().get(playerIndex);
-            int computerIndex = computer.getNumbers().indexOf(playerNumber);
+            int playerNumber = player.getNumber(playerIndex);
+            int computerIndex = computer.getIndex(playerNumber);
             counting(playerIndex, computerIndex);
         }
     }
@@ -71,45 +69,30 @@ public class Controller {
         }
     }
 
-    public boolean result() {
-        int strike = computer.getStrikeCount();
-        int ball = computer.getBallCount();
-        if (strike == 0 && ball == 0) {
-            OutputView.printNothing();
-        }
-        if (strike > 0 && ball > 0) {
-            OutputView.printStrikeAndBallCount(strike, ball);
-        } else if (strike > 0) {
-            OutputView.printStrikeCount(strike);
-
-        } else if (ball > 0) {
-            OutputView.printBallCount(ball);
-        }
-        if (strike == INPUT_LENGTH) {
+    private boolean isCorrectAnswer() {
+        OutputView.printResult(computer.getStrikeCount(), computer.getBallCount());
+        if (computer.getStrikeCount() == INPUT_LENGTH) {
             OutputView.printSuccess();
             return true;
         }
         return false;
     }
 
-    public boolean restartOrQuit() {
-        InputView.printReStart();
+    private boolean isQuit() {
+        InputView.printAskReStart();
         input = Console.readLine();
         InputException.inputRestartOrQuit(input, RESTART_VALUE, QUIT_VALUE);
-        if (input.equals(QUIT_VALUE)) {
-            return true;
-        }
-        return false;
+        return input.equals(QUIT_VALUE);
     }
 
-    public void run() {
+    private void run() {
         initGame();
         done = false;
         while (!done) {
             InputView.printInputNumber();
             inputPlayer();
             computeScore();
-            done = result();
+            done = isCorrectAnswer();
         }
     }
 
@@ -118,7 +101,7 @@ public class Controller {
         done = false;
         while (!done) {
             run();
-            done = restartOrQuit();
+            done = isQuit();
         }
     }
 }
