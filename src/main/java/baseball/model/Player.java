@@ -12,4 +12,16 @@ public class Player {
     public List<Integer> getNumbers() {
         return this.numbers;
     }
+
+    public void add(int value) {
+        this.numbers.add(value);
+    }
+
+    public int getNumber(int index) {
+        return this.numbers.get(index);
+    }
+
+    public int getIndex(int value) {
+        return this.numbers.indexOf(value);
+    }
 }
