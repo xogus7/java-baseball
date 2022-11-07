@@ -16,6 +16,14 @@ public class Computer {
         this.ballCount = 0;
     }
 
+    public void incStrikeCount() {
+        this.strikeCount++;
+    }
+
+    public void incBallCount() {
+        this.ballCount++;
+    }
+
     public List<Integer> getNumbers() {
         return this.numbers;
     }
@@ -28,11 +36,12 @@ public class Computer {
         return this.ballCount;
     }
 
-    public void incStrikeCount() {
-        this.strikeCount++;
+    public int getNumber(int index) {
+        return this.numbers.get(index);
     }
 
-    public void incBallCount() {
-        this.ballCount++;
+    public int getIndex(int value) {
+        return this.numbers.indexOf(value);
     }
+
 }
