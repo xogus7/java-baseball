@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class InputException {
-    private static final String INPUT_ERROR_MESSAGE = "[ERROR] : WRONG INPUT";
+    private static final String INPUT_ERROR_MESSAGE = "[ERROR]: WRONG INPUT";
     private static final String REGEXP_NUMBER = "^[1-9]+$";
 
     public static void inputArgumentCheck(String input, int numLength) {
@@ -19,18 +19,12 @@ public class InputException {
         }
     }
 
-    private static boolean checkLength(String input, int numLength) {
-        if (input.length() != numLength) {
-            return false;
-        }
-        return true;
+    private static boolean checkLength( String input, int numLength) {
+        return input.length() == numLength;
     }
 
     private static boolean checkNumber(String input) {
-        if (input.matches(REGEXP_NUMBER)) {
-            return true;
-        }
-        return false;
+        return input.matches(REGEXP_NUMBER);
     }
 
     private static boolean checkDuplicate(String input) {
@@ -44,9 +38,6 @@ public class InputException {
     }
 
     private static boolean checkRestartOrQuit(String input, String restart, String quit) {
-        if (input.equals(restart) || input.equals(quit)) {
-            return true;
-        }
-        return false;
+        return input.equals(restart) || input.equals(quit);
     }
 }
