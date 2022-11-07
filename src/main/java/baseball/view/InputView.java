@@ -8,7 +8,7 @@ public class InputView {
     public static void printGameStart(){
         System.out.printf(GAME_STRART_MESSAGE+"\n");
     }
-    public static void printReStart(){
+    public static void printAskReStart(){
         System.out.printf(RETRY_GAME_MESSAGE+"\n");
     }
     public static void printInputNumber(){
